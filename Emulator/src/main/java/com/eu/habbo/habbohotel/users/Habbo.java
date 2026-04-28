@@ -114,6 +114,7 @@ public class Habbo implements Runnable {
 
     public void setClient(GameClient client) {
         this.client = client;
+        if (this.habboRoleplay != null) { this.habboRoleplay.setClient(client); }
     }
 
 
@@ -521,4 +522,8 @@ public class Habbo implements Runnable {
                 .flatMap(c -> Arrays.stream(c).boxed())
                 .collect(Collectors.toSet());
     }
+
+    private com.eu.habbo.habbohotel.habboroleplay.roleplayusers.RoleplayUser habboRoleplay;
+    public com.eu.habbo.habbohotel.habboroleplay.roleplayusers.RoleplayUser getHabboRoleplay() { return this.habboRoleplay; }
+    public void setHabboRoleplay(com.eu.habbo.habbohotel.habboroleplay.roleplayusers.RoleplayUser habboRoleplay) { this.habboRoleplay = habboRoleplay; }
 }

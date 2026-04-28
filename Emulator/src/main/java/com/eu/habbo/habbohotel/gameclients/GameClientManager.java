@@ -9,12 +9,14 @@ import io.netty.channel.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class GameClientManager {
 
     private final ConcurrentMap<ChannelId, GameClient> clients;
+    private final ConcurrentMap<Integer, String> phoneClients = new ConcurrentHashMap<>();
 
     public GameClientManager() {
         this.clients = new ConcurrentHashMap<>();
@@ -74,6 +76,23 @@ public class GameClientManager {
         return false;
     }
 
+
+    public void registerClientPhone(int userId, String phoneNumber) {
+        this.phoneClients.put(userId, phoneNumber);
+    }
+
+    public int getUserIdByPhoneNumber(String phoneNumber) {
+        for (Map.Entry<Integer, String> entry : this.phoneClients.entrySet()) {
+            if (entry.getValue().equalsIgnoreCase(phoneNumber)) {
+                return entry.getKey();
+            }
+        }
+        return 0;
+    }
+
+    public String getPhoneNumberByUserId(int userId) {
+        return this.phoneClients.get(userId);
+    }
 
     public Habbo getHabbo(int id) {
         for (GameClient client : this.clients.values()) {
