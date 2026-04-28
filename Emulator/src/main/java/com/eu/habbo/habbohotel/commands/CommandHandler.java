@@ -10,6 +10,7 @@ import com.eu.habbo.habbohotel.pets.PetCommand;
 import com.eu.habbo.habbohotel.pets.PetVocalsType;
 import com.eu.habbo.habbohotel.pets.RideablePet;
 import com.eu.habbo.habbohotel.rooms.Room;
+import com.eu.habbo.habbohotel.commands.habboroleplay.*;
 import com.eu.habbo.habbohotel.rooms.RoomRightLevels;
 import com.eu.habbo.messages.outgoing.rooms.users.RoomUserTypingComposer;
 import com.eu.habbo.plugin.events.users.UserCommandEvent;
@@ -303,6 +304,16 @@ public class CommandHandler {
         addCommand(new PrefixBlacklistCommand());
         addCommand(new WiredCommand());
         addCommand(new TestCommand());
+        addCommand(new RobATMCommand());
+        addCommand(new RobCommand());
+        addCommand(new StartWorkCommand());
+        addCommand(new StopWorkCommand());
+        addCommand(new FugaCommand());
+        addCommand(new GangCaptureCommand());
+        addCommand(new GangInviteCommand());
+        addCommand(new AcceptOfferCommand());
+        addCommand(new SmsCommand());
+        addCommand(new WhatsCommand());
     }
 
     public List<Command> getCommandsForRank(int rankId) {

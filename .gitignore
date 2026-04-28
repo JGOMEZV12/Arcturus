@@ -15,3 +15,19 @@ config.ini
 
 /Emulator/plugins
 /Emulator/.idea
+compile_output.txt
+compile_log.txt
+compile_result.log
+final_fix.py
+mega_fix.py
+ultra_fix.py
+hyper_fix.py
+super_fix.py
+total_fix.py
+fix_final.py
+fix_commands.py
+fix_group_mgr.py
+final_timer_fix.py
+force_timers.py
+mega_recreate_timers.py
+final_super_fix.py

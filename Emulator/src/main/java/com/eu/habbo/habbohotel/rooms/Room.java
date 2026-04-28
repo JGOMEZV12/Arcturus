@@ -153,6 +153,14 @@ public class Room implements Comparable<Room>, ISerialize, Runnable {
   private int wallHeight;
   private int floorSize;
   private int guild;
+  private boolean isHospital;
+  private boolean isPrison;
+  private boolean isPoliceStation;
+  private boolean isBank;
+  private boolean isRobEnabled;
+  private boolean turfEnabled;
+  private boolean turfCapturing;
+  private int turfUserAttackerId;
   private String tags;
   private boolean publicRoom;
   private boolean staffPromotedRoom;
@@ -258,6 +266,14 @@ public class Room implements Comparable<Room>, ISerialize, Runnable {
     this.banOption = set.getInt("who_can_ban");
     this.pollId = set.getInt("poll_id");
     this.guild = set.getInt("guild_id");
+    try {
+        this.isHospital = set.getBoolean("is_hospital");
+        this.isPrison = set.getBoolean("is_prison");
+        this.isPoliceStation = set.getBoolean("is_polstation");
+        this.isBank = set.getBoolean("is_bank");
+        this.isRobEnabled = set.getBoolean("is_rob_enabled");
+        this.turfEnabled = set.getBoolean("turf_enabled");
+    } catch (Exception ignored) {}
     this.rollerSpeed = set.getInt("roller_speed");
     this.overrideModel = set.getString("override_model").equals("1");
     this.layoutName = set.getString("model");
@@ -1458,6 +1474,23 @@ public class Room implements Comparable<Room>, ISerialize, Runnable {
     this.layout.moveDiagonally(this.moveDiagonally);
     this.needsUpdate = true;
   }
+
+  public boolean isHospital() { return isHospital; }
+  public void setHospital(boolean hospital) { isHospital = hospital; }
+  public boolean isPrison() { return isPrison; }
+  public void setPrison(boolean prison) { isPrison = prison; }
+  public boolean isPoliceStation() { return isPoliceStation; }
+  public void setPoliceStation(boolean policeStation) { isPoliceStation = policeStation; }
+  public boolean isBank() { return isBank; }
+  public void setBank(boolean bank) { isBank = bank; }
+  public boolean isRobEnabled() { return isRobEnabled; }
+  public void setRobEnabled(boolean robEnabled) { isRobEnabled = robEnabled; }
+  public boolean isTurfEnabled() { return turfEnabled; }
+  public void setTurfEnabled(boolean turfEnabled) { this.turfEnabled = turfEnabled; }
+  public boolean isTurfCapturing() { return turfCapturing; }
+  public void setTurfCapturing(boolean turfCapturing) { this.turfCapturing = turfCapturing; }
+  public int getTurfUserAttackerId() { return turfUserAttackerId; }
+  public void setTurfUserAttackerId(int turfUserAttackerId) { this.turfUserAttackerId = turfUserAttackerId; }
 
   public int getGuildId() {
     if (this.guild > 0) {

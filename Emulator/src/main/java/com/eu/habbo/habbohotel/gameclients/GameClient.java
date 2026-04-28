@@ -171,4 +171,11 @@ public class GameClient {
             LOGGER.error("Caught exception", e);
         }
     }
+
+    public com.eu.habbo.habbohotel.habboroleplay.roleplayusers.RoleplayUser getRoleplay() {
+        if (this.habbo != null) {
+            return this.habbo.getHabboRoleplay();
+        }
+        return null;
+    }
 }

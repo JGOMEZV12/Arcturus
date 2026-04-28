@@ -87,10 +87,13 @@ public class GameEnvironment {
 
         this.roomManager.loadPublicRooms();
         this.navigatorManager.loadNavigator();
+        this.habboRoleplayManager.init();
 
         this.creditsScheduler = new CreditsScheduler();
         Emulator.getThreading().run(this.creditsScheduler);
         this.pixelScheduler = new PixelScheduler();
+        this.habboRoleplayManager = new com.eu.habbo.habbohotel.habboroleplay.HabboRoleplayManager();
+        this.habboRoleplayManager.init();
         Emulator.getThreading().run(this.pixelScheduler);
         this.pointsScheduler = new PointsScheduler();
         Emulator.getThreading().run(this.pointsScheduler);
@@ -218,5 +221,10 @@ public class GameEnvironment {
 
     public RoomChatBubbleManager getRoomChatBubbleManager() {
         return roomChatBubbleManager;
+    }
+    private com.eu.habbo.habbohotel.habboroleplay.HabboRoleplayManager habboRoleplayManager;
+
+    public com.eu.habbo.habbohotel.habboroleplay.HabboRoleplayManager getHabboRoleplayManager() {
+        return this.habboRoleplayManager;
     }
 }
