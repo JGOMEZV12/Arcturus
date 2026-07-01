@@ -3,6 +3,7 @@ package com.eu.habbo.habbohotel.gameclients;
 import com.eu.habbo.Emulator;
 import com.eu.habbo.crypto.HabboEncryption;
 import com.eu.habbo.habbohotel.LatencyTracker;
+import com.eu.habbo.habbohotel.roleplay.HabboRoleplayManager;
 import com.eu.habbo.habbohotel.users.Habbo;
 import com.eu.habbo.messages.ServerMessage;
 import com.eu.habbo.messages.incoming.MessageHandler;
@@ -24,6 +25,7 @@ public class GameClient {
 	private final LatencyTracker latencyTracker;
 
     private Habbo habbo;
+    private HabboRoleplayManager roleplayManager;
     private boolean handshakeFinished;
     private String machineId = "";
     private String ssoTicket = "";
@@ -61,6 +63,25 @@ public class GameClient {
 
     public void setHabbo(Habbo habbo) {
         this.habbo = habbo;
+
+        // Initialize HabboRoleplayManager when user logs in
+        if (habbo != null && !habbo.isBot()) {
+            try {
+                this.roleplayManager = new HabboRoleplayManager(this, habbo);
+                this.roleplayManager.initialize();
+                LOGGER.info("HabboRoleplayManager initialized for user: {}", habbo.getUsername());
+            } catch (Exception e) {
+                LOGGER.error("Error initializing HabboRoleplayManager for user: {}", habbo.getUsername(), e);
+            }
+        }
+    }
+
+    public HabboRoleplayManager getRoleplayManager() {
+        return roleplayManager;
+    }
+
+    public boolean isInRoleplay() {
+        return roleplayManager != null && roleplayManager.isActive();
     }
 
     public boolean isHandshakeFinished() {
@@ -150,6 +171,12 @@ public class GameClient {
 
     public void dispose() {
         try {
+            // Cleanup roleplay manager
+            if (roleplayManager != null) {
+                roleplayManager.dispose();
+                roleplayManager = null;
+            }
+
             this.channel.close();
 
             if (this.habbo != null) {
