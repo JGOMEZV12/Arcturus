@@ -1,0 +1,34 @@
+--- a/Emulator/src/main/java/com/eu/habbo/habbohotel/GameEnvironment.java
++++ b/Emulator/src/main/java/com/eu/habbo/habbohotel/GameEnvironment.java
+@@ -1,6 +1,8 @@
+ package com.eu.habbo.habbohotel;
+ 
+ import com.eu.habbo.Emulator;
++import com.eu.habbo.habbohotel.roleplay.RoleplayInitializer;
++import com.eu.habbo.habbohotel.roleplay.timers.RoleplayTimerManager;
+ import com.eu.habbo.habbohotel.achievements.AchievementManager;
+ import com.eu.habbo.habbohotel.achievements.AchievementTracker;
+ import com.eu.habbo.habbohotel.announcements.AnnouncementManager;
+@@ -145,6 +147,11 @@ public class GameEnvironment {
+ AchievementManager.load();
+ RoomCategoryManager.load();
+ 
++        // Initialize roleplay system
++        RoleplayInitializer.initialize();
++        
++        // Start roleplay timers
++        RoleplayTimerManager.start();
++        
+         LOGGER.info("Game Environment loaded successfully");
+     }
+ 
+@@ -185,6 +192,9 @@ public class GameEnvironment {
+         ItemDataManager.getInstance().dispose();
+         RoomManager.getInstance().dispose();
+         
++        // Stop roleplay timers
++        RoleplayTimerManager.stop();
++        
+         LOGGER.info("Game Environment disposed");
+     }
+ 
