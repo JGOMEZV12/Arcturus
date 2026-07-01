@@ -1,0 +1,36 @@
+--- a/Emulator/src/main/java/com/eu/habbo/networking/gameserver/WebSocketChannelInitializer.java
++++ b/Emulator/src/main/java/com/eu/habbo/networking/gameserver/WebSocketChannelInitializer.java
+@@ -1,6 +1,7 @@
+ package com.eu.habbo.networking.gameserver;
+ 
+ import io.netty.channel.ChannelInitializer;
++import io.netty.channel.ChannelPipeline;
+ import io.netty.channel.socket.SocketChannel;
+ import io.netty.handler.codec.http.HttpServerCodec;
+ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+@@ -24,13 +25,31 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChann
+ @Override
+     protected void initChannel(SocketChannel ch) throws Exception {
+         SSLContext sslContext = null;
+         boolean ssl = false;
+         try {
+             SSLContextCreator creator = new SSLContextCreator();
+             sslContext = creator.createSSLContext();
+             ssl = !creator.isFailedToLoad();
+         } catch (Exception e) {
+             ssl = false;
+         }
+         HttpServerCodec codec = new HttpServerCodec();
+         WebSocketServerProtocolHandler protocolHandler = new WebSocketServerProtocolHandler("/ws");
+ 
++        // Add support for /events endpoint
++        ch.pipeline().addLast("httpCodec", codec);
++        ch.pipeline().addLast("webEventRouter", new WebEventRouter());
++        ch.pipeline().addLast("webEventHandler", new WebEventHandler());
+         ch.pipeline().addLast("protocolHandler", protocolHandler);
+     }
+ 
+     public boolean isSslEnabled() {
+         return ssl;
+     }
+ }
